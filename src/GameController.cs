@@ -74,12 +74,9 @@ namespace BattleShipConversion
 
             //create the players
             switch (_aiSetting) {
-<<<<<<< HEAD
-=======
 			case AIOption.Easy:
 				_ai = new AIEasyPlayer(_theGame);
 				break;
->>>>>>> create-easy-ai
             case AIOption.Medium:
                 _ai = new AIMediumPlayer(_theGame);
                 break;
