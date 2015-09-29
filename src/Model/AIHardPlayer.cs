@@ -219,7 +219,7 @@ public class AIHardPlayer : AIPlayer
 				if ((!foundOriginal && t.ShotAt == source) || (foundOriginal & t.Source == source)) {
 					current = t;
 					_LastHit.Remove(t);
-					break; // TODO: might not be correct. Was : Exit For
+					break;
 				}
 			}
 
