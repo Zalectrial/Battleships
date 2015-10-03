@@ -284,6 +284,9 @@ namespace BattleShipConversion
             case GameState.AlteringSettings:
                 MenuController.HandleSetupMenuInput();
                 break;
+            case GameState.ConfirmingSettings:
+                MenuController.HandleConfirmSettingsInput();
+                break;
             case GameState.Deploying:
                 DeploymentController.HandleDeploymentInput();
                 break;
@@ -320,6 +323,9 @@ namespace BattleShipConversion
                 break;
             case GameState.AlteringSettings:
                 MenuController.DrawSettings();
+                break;
+            case GameState.ConfirmingSettings:
+                MenuController.DrawConfirmation();
                 break;
             case GameState.Deploying:
                 DeploymentController.DrawDeployment();
@@ -376,6 +382,13 @@ namespace BattleShipConversion
         public static void SetDifficulty(AIOption setting)
         {
             _aiSetting = setting;
+        }
+
+        /// <summary>
+        /// Gets the difficulty for the next level of the game.
+        /// </summary>
+        public static AIOption GetDifficulty() {
+            return _aiSetting;
         }
 
     }

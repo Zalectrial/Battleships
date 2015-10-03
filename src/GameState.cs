@@ -32,6 +32,11 @@ public enum GameState
 	/// </summary>
 	AlteringSettings,
 
+    /// <summary>
+    /// The player has returned from a settings menu and is seeing a confirmation dialog.
+    /// </summary>
+    ConfirmingSettings,
+
 	/// <summary>
 	/// Players are deploying their ships
 	/// </summary>

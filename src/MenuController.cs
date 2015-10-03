@@ -35,6 +35,9 @@ namespace BattleShipConversion
                 "EASY",
                 "MEDIUM",
                 "HARD"
+            },
+            new string[] {
+                "OKAY"
             }
 
         };
@@ -58,10 +61,12 @@ namespace BattleShipConversion
         private const int SETUP_MENU_EASY_BUTTON = 0;
         private const int SETUP_MENU_MEDIUM_BUTTON = 1;
         private const int SETUP_MENU_HARD_BUTTON = 2;
-
         private const int SETUP_MENU_EXIT_BUTTON = 3;
         private const int GAME_MENU_RETURN_BUTTON = 0;
         private const int GAME_MENU_SURRENDER_BUTTON = 1;
+
+        private const int CONFIRM_MENU = 3;
+        private const int CONFIRM_MENU_OKAY_BUTTON = 0;
 
         private const int GAME_MENU_QUIT_BUTTON = 2;
         private static readonly Color MENU_COLOR = SwinGame.RGBAColor(2, 167, 252, 255);
@@ -82,6 +87,18 @@ namespace BattleShipConversion
         {
             bool handled = false;
             handled = HandleMenuInput(SETUP_MENU, 1, 1);
+
+            if (!handled) {
+                HandleMenuInput(MAIN_MENU, 0, 0);
+            }
+        }
+
+        /// <summary>
+        /// Handles the processing of the confirmation dialog after settings menu
+        /// </summary>
+        public static void HandleConfirmSettingsInput() {
+            bool handled = false;
+            handled = HandleMenuInput(CONFIRM_MENU, 1, 1);
 
             if (!handled) {
                 HandleMenuInput(MAIN_MENU, 0, 0);
@@ -170,6 +187,19 @@ namespace BattleShipConversion
         }
 
         /// <summary>
+        /// Draws the confirmation menu to the screen.
+        /// </summary>
+        /// <remarks>
+        /// Also shows the main menu
+        /// </remarks>
+        public static void DrawConfirmation() {
+
+            DrawButtons(MAIN_MENU);
+            DrawButtons(CONFIRM_MENU, 2, 2);
+            DrawAlertBox(string.Concat("THE CURRENT AI IS SET TO ", GameController.GetDifficulty(), "."), 3, 2);
+        }
+
+        /// <summary>
         /// Draw the buttons associated with a top level menu.
         /// </summary>
         /// <param name="menu">the index of the menu to draw</param>
@@ -205,6 +235,22 @@ namespace BattleShipConversion
                     SwinGame.DrawRectangle(HIGHLIGHT_COLOR, btnLeft, btnTop, BUTTON_WIDTH, BUTTON_HEIGHT);
                 }
             }
+        }
+
+        /// <summary>
+        /// Draws a text field at the indicated level.
+        /// </summary>
+        /// <param name="text">the text to draw</param>
+        /// <param name="level">the level (height) of the menu</param>
+        /// <param name="xOffset">the offset of the menu</param>
+        /// <remarks>
+        /// The level indicates the height
+        /// of the menu, to enable sub menus. The xOffset repositions the menu horizontally
+        /// to allow the submenus to be positioned correctly.
+        /// </remarks>
+        private static void DrawAlertBox(string text, int level, int xOffset)
+        {
+            SwinGame.DrawText(text, MENU_COLOR, GameResources.GameFont("Menu"), MENU_LEFT + BUTTON_SEP * xOffset + TEXT_OFFSET, MENU_TOP - (MENU_GAP + BUTTON_HEIGHT) * level + TEXT_OFFSET);
         }
 
         /// <summary>
@@ -245,6 +291,9 @@ namespace BattleShipConversion
                 break;
             case SETUP_MENU:
                 PerformSetupMenuAction(button);
+                break;
+            case CONFIRM_MENU:
+                PerformConfirmMenuAction(button);
                 break;
             case GAME_MENU:
                 PerformGameMenuAction(button);
@@ -291,8 +340,22 @@ namespace BattleShipConversion
                 GameController.SetDifficulty(AIOption.Hard);
                 break;
             }
-            //Always end state - handles exit button as well
-            GameController.EndCurrentState();
+
+            //Always go to the confirming state. Also notifies the user when no selection was made.
+            GameController.SwitchState(GameState.ConfirmingSettings);
+        }
+
+        /// <summary>
+        /// Sets up the confirmation menu's "okay" button.
+        /// </summary>
+        /// <param name="button">the button pressed</param>
+        private static void PerformConfirmMenuAction(int button) {
+            switch (button) {
+                case CONFIRM_MENU_OKAY_BUTTON:
+                    //Only exits this menu when the okay button is pressed.
+                    GameController.EndCurrentState();
+                    break;
+            }
         }
 
         /// <summary>
