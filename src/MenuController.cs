@@ -22,7 +22,7 @@ namespace BattleShipConversion
         private static readonly string[][] _menuStructure = {
             new string[] {
                 "PLAY",
-                "SETUP",
+                "Difficulty",
                 "SCORES",
                 "QUIT"
             },
