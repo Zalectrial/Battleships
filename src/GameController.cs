@@ -158,7 +158,19 @@ namespace BattleShipConversion
             if (isHuman) {
                 UtilityFunctions.Message = "You " + result.ToString();
             } else {
-                UtilityFunctions.Message = "The AI " + result.ToString();
+                String s = result.ToString();
+
+                switch (result.Value)
+                {
+                    case ResultOfAttack.Destroyed:
+                        String v = s.Replace("enemy's", "your");
+                        UtilityFunctions.Message = "The AI " + v;
+                        break;
+                    default:
+                        UtilityFunctions.Message = "The AI " + s;
+                        break;
+                }
+
             }
 
             switch (result.Value) {
