@@ -294,7 +294,7 @@ namespace BattleShipConversion
                 EndingGameController.HandleEndOfGameInput();
                 break;
             case GameState.ViewingHighScores:
-                HighScoreController.HandleHighScoreInput();
+                MenuController.HandleReturnMenuInput();
                 break;
             }
 
@@ -332,6 +332,7 @@ namespace BattleShipConversion
                 break;
             case GameState.ViewingHighScores:
                 HighScoreController.DrawHighScores();
+				MenuController.DrawReturnMenu();
                 break;
             }
 
