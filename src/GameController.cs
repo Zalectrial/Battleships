@@ -292,6 +292,7 @@ namespace BattleShipConversion
                 break;
             case GameState.Discovering:
                 DiscoveryController.HandleDiscoveryInput();
+				MenuController.HandleReturnMenuInput();
                 break;
             case GameState.EndingGame:
                 EndingGameController.HandleEndOfGameInput();
@@ -332,6 +333,7 @@ namespace BattleShipConversion
                 break;
             case GameState.Discovering:
                 DiscoveryController.DrawDiscovery();
+				MenuController.DrawReturnMenu();
                 break;
             case GameState.EndingGame:
                 EndingGameController.DrawEndOfGame();
