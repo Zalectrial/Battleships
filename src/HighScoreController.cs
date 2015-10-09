@@ -116,14 +116,14 @@ namespace BattleShipConversion
         /// </summary>
         public static void DrawHighScores()
         {
-            const int SCORES_HEADING = 40;
-            const int SCORES_TOP = 80;
+            const int SCORES_HEADING = 150;
+            const int SCORES_TOP = 190;
             const int SCORE_GAP = 30;
 
             if (_Scores.Count == 0)
                 LoadScores();
 
-            SwinGame.DrawText("   High Scores   ", Color.White, GameResources.GameFont("Courier"), SCORES_LEFT, SCORES_HEADING);
+            SwinGame.DrawText("   High Scores   ", Color.Blue, GameResources.GameFont("Courier"), SCORES_LEFT, SCORES_HEADING);
 
             //For all of the scores
             int i = 0;
@@ -131,9 +131,18 @@ namespace BattleShipConversion
                 Score s = default(Score);
 
                 s = _Scores[i];
-
+				
+				if (i == 0) {
+                    SwinGame.DrawText(" " + (i + 1) + ":   " + s.Name + "   " + s.Value, Color.Gold, GameResources.GameFont("Courier"), SCORES_LEFT, SCORES_TOP + i * SCORE_GAP);
+                } 
+				else if (i == 1 ) {
+                    SwinGame.DrawText(" " + (i + 1) + ":   " + s.Name + "   " + s.Value, Color.Silver, GameResources.GameFont("Courier"), SCORES_LEFT, SCORES_TOP + i * SCORE_GAP);
+                } 
+				else if (i == 2) {
+                    SwinGame.DrawText(" " + (i + 1) + ":   " + s.Name + "   " + s.Value, Color.Brown, GameResources.GameFont("Courier"), SCORES_LEFT, SCORES_TOP + i * SCORE_GAP);
+                } 
                 //for scores 1 - 9 use 01 - 09
-                if (i < 9) {
+                else if ((i >= 3) && (i < 9)){
                     SwinGame.DrawText(" " + (i + 1) + ":   " + s.Name + "   " + s.Value, Color.White, GameResources.GameFont("Courier"), SCORES_LEFT, SCORES_TOP + i * SCORE_GAP);
                 } else {
                     SwinGame.DrawText(i + 1 + ":   " + s.Name + "   " + s.Value, Color.White, GameResources.GameFont("Courier"), SCORES_LEFT, SCORES_TOP + i * SCORE_GAP);
