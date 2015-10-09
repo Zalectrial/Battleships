@@ -36,6 +36,10 @@ namespace BattleShipConversion
                 "MEDIUM",
                 "HARD"
             },
+			new string[] {
+				"MENU",
+				"QUIT"
+			},
             new string[] {
                 "OKAY"
             }
@@ -53,6 +57,7 @@ namespace BattleShipConversion
         private const int GAME_MENU = 1;
 
         private const int SETUP_MENU = 2;
+		private const int RETURN_MENU = 3;
         private const int MAIN_MENU_PLAY_BUTTON = 0;
         private const int MAIN_MENU_SETUP_BUTTON = 1;
         private const int MAIN_MENU_TOP_SCORES_BUTTON = 2;
@@ -65,10 +70,13 @@ namespace BattleShipConversion
         private const int GAME_MENU_RETURN_BUTTON = 0;
         private const int GAME_MENU_SURRENDER_BUTTON = 1;
 
-        private const int CONFIRM_MENU = 3;
+        private const int CONFIRM_MENU = 4;
         private const int CONFIRM_MENU_OKAY_BUTTON = 0;
 
         private const int GAME_MENU_QUIT_BUTTON = 2;
+		
+		private const int RETURN_MENU_MENU_BUTTON = 0;
+		private const int RETURN_MENU_QUIT_BUTTON = 1;
         private static readonly Color MENU_COLOR = SwinGame.RGBAColor(2, 167, 252, 255);
 
         private static readonly Color HIGHLIGHT_COLOR = SwinGame.RGBAColor(1, 57, 86, 255);
@@ -114,6 +122,17 @@ namespace BattleShipConversion
         public static void HandleGameMenuInput()
         {
             HandleMenuInput(GAME_MENU, 0, 0);
+        }
+		
+		 /// <summary>
+        /// Handle input in the game and high score screen
+        /// </summary>
+        /// <remarks>
+        /// Player can return to the main menu or quit entirely
+        /// </remarks>
+        public static void HandleReturnMenuInput()
+        {
+            HandleMenuInput(RETURN_MENU, 0, 0);
         }
 
         /// <summary>
@@ -169,6 +188,17 @@ namespace BattleShipConversion
             //SwinGame.DrawText("Paused", Color.White, GameFont("ArialLarge"), 50, 50)
 
             DrawButtons(GAME_MENU);
+        }
+		
+		/// <summary>
+        /// Draws the return menu to the screen
+        /// </summary>
+        public static void DrawReturnMenu()
+        {
+            //Clears the Screen to Black
+            //SwinGame.DrawText("Paused", Color.White, GameFont("ArialLarge"), 50, 50)
+
+            DrawButtons(RETURN_MENU);
         }
 
         /// <summary>
@@ -298,6 +328,9 @@ namespace BattleShipConversion
             case GAME_MENU:
                 PerformGameMenuAction(button);
                 break;
+			case RETURN_MENU:
+				PerformReturnMenuAction(button);
+				break;
             }
         }
 
@@ -375,6 +408,22 @@ namespace BattleShipConversion
                 //end game
                 break;
             case GAME_MENU_QUIT_BUTTON:
+                GameController.AddNewState(GameState.Quitting);
+                break;
+            }
+        }
+		
+		/// <summary>
+        /// The return menu was clicked, perform the button's action.
+        /// </summary>
+        /// <param name="button">the button pressed</param>
+        private static void PerformReturnMenuAction(int button)
+        {
+            switch (button) {
+            case RETURN_MENU_MENU_BUTTON:
+                GameController.EndCurrentState();
+                break;
+            case RETURN_MENU_QUIT_BUTTON:
                 GameController.AddNewState(GameState.Quitting);
                 break;
             }
